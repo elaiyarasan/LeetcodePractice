@@ -1,0 +1,33 @@
+/**
+	Given an array of integers, return indices of the two numbers such that they 	add up to a specific target.
+
+	You may assume that each input would have exactly one solution.
+
+	Example:
+	Given nums = [2, 7, 11, 15], target = 9,
+
+	Because nums[0] + nums[1] = 2 + 7 = 9,
+	return [0, 1].
+
+**/
+
+public class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] res=new int[2];
+        HashMap<Integer,Integer> hmap=new HashMap<Integer,Integer>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(hmap.containsKey(target-nums[i]))//for 1, can not change the order
+            {
+                res[0]=hmap.get(target-nums[i]);
+                res[1]=i;
+                return res;
+            }
+            hmap.put(nums[i],i);//for 2.should be put after the if statement.
+        }
+        return res;
+    }
+}
+//Notice: 1. [3,2,4],6. Here, 6-3=3. 
+        //2. [3,2,4,3]6. Here 3+3=6. But index should be different.
+            
