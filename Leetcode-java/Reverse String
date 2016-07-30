@@ -1,0 +1,17 @@
+public class Solution {
+    public String reverseString(String s) {
+        char[] ch=s.toCharArray();
+        for(int i=0,j=ch.length-1;i<j;i++,j--)
+        {
+            char temp=ch[i];
+            ch[i]=ch[j];
+            ch[j]=temp;
+        }
+        return new String(ch);
+        
+    }
+}
+
+//Notice: it is very different from C++
+In C++, s is a string. Then temp=s[i],s[i]=s[j],s[j]=temp
+In java, s is a string. We have to use Char[] ch=s.toCharArray() first. Then temp=ch[i]…, and finally return new String(ch)
