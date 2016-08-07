@@ -1,0 +1,44 @@
+203. Remove Linked List Elements  QuestionEditorial Solution  My Submissions
+Total Accepted: 74238
+Total Submissions: 249827
+Difficulty: Easy
+Remove all elements from a linked list of integers that have value val.
+
+Example
+Given: 1 --> 2 --> 6 --> 3 --> 4 --> 5 --> 6, val = 6
+Return: 1 --> 2 --> 3 --> 4 --> 5
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head==null)
+        return head;
+        if(head.next==null&&head.val==val)
+        return null;
+        if(head.next==null&&head.val!=val)
+        return head;
+        ListNode p1,p2,p3;
+        p1=new ListNode(val-1);
+        p1.next=head;
+        p2=p1;
+        while(p1!=null)
+        {
+            p3=p1.next;
+            while(p3!=null&&p3.val==val)
+            {
+                p3=p3.next;
+            }
+            p1.next=p3;
+            p1=p3;
+        }
+        return p2.next;
+        
+    }
+}
