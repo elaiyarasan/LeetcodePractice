@@ -1,0 +1,25 @@
+/**
+Given a string, determine if a permutation of the string could form a palindrome.
+
+For example,
+"code" -> False, "aab" -> True, "carerac" -> True.
+**/
+class Solution {
+public:
+    bool canPermutePalindrome(string s) {
+        unordered_set<char> hset;
+        for(int i=0;i<s.size();i++)
+        {
+            if(hset.find(s[i])==hset.end())
+            hset.insert(s[i]);
+            else
+            hset.erase(s[i]);
+        }
+            
+        if(hset.size()>1)
+            return false;
+   
+        return true;
+        
+    }
+};
