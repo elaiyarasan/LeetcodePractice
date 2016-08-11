@@ -1,0 +1,32 @@
+/**
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+Credits:
+
+**/
+class Solution {
+public:
+    int max(int a,int b)
+    {
+         if(a<b)
+         return b;
+         else
+         return a;
+    }
+    int rob(vector<int>& nums) {
+       int n=nums.size();
+       if(n==0)
+       return 0;
+
+       unordered_map<int,int> hmap;
+       hmap[0]=0;
+       hmap[1]=nums[0];
+       for(int i=2;i<=n;i++)
+       {
+        hmap[i]=max(hmap[i-2]+nums[i-1],hmap[i-1]);
+       }
+        return hmap[n];
+    }
+};
