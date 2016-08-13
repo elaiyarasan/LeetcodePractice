@@ -1,0 +1,36 @@
+/**
+Given an index k, return the kth row of the Pascal's triangle.
+
+For example, given k = 3,
+Return [1,3,3,1]
+**/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> prior(1,1);
+        vector<int> later(1,1);
+        for(int i=1;i<=rowIndex;i++)
+        {   later.clear();
+            later.push_back(1);
+            int j=0;
+            while(j+1<prior.size())
+            {
+                later.push_back(prior[j]+prior[j+1]);
+                j++;
+            }
+            if(later.size()==i)
+            later.push_back(1);
+            prior=later;
+        }
+        return later;
+    }
+};
