@@ -1,0 +1,52 @@
+/**
+Given a string, we can "shift" each of its letter to its successive letter, for example: "abc" -> "bcd". We can keep "shifting" which forms the sequence:
+
+"abc" -> "bcd" -> ... -> "xyz"
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.
+
+For example, given: ["abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"], 
+A solution is:
+
+[
+  ["abc","bcd","xyz"],
+  ["az","ba"],
+  ["acef"],
+  ["a","z"]
+]
+Show Company Tags
+Show Tags
+Show Similar Problems
+
+**/
+class Solution {
+public:
+    vector<vector<string>> groupStrings(vector<string>& strings) {
+        unordered_map<string,vector<string>> hmap;
+        vector<vector<string>> res;
+        for(int i=0;i<strings.size();i++)
+        {
+            hmap[encode(strings[i])].push_back(strings[i]);
+        }
+        for(auto it=hmap.begin();it!=hmap.end();it++)
+        {
+            sort(it->second.begin(),it->second.end());
+            res.push_back(it->second);
+        }
+        return res;
+    }
+private:
+    string encode(string &input)
+    {
+        string res="0";
+        for(int i=1;i<input.size();i++)
+        {
+            char a;
+            if(input[i]-input[i-1]>0)
+            a=input[i]-input[i-1]+'0';
+            else
+            a=input[i]-input[i-1]+'0'+26;
+            res=res+a;
+        }
+        return res;
+    }
+};
