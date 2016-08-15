@@ -1,0 +1,80 @@
+/**
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.
+
+For example,
+Given "egg", "add", return true.
+
+Given "foo", "bar", return false.
+
+Given "paper", "title", return true.
+
+
+**/
+/* 
+//Way 1:
+public class Solution {
+    public String decode(String s){
+         HashMap<Character,Integer> shmap=new HashMap<Character,Integer>();
+         String decode1="";
+         int k=0;
+        for(int i=0;i<s.length();i++)
+        {
+           if(!shmap.containsKey(s.charAt(i)))
+           {
+               k++;
+               shmap.put(s.charAt(i),k);
+               decode1+=k;
+           }
+           else
+           {
+               decode1+=shmap.get(s.charAt(i));
+           }
+        }
+        return decode1;
+         
+    }
+    public boolean isIsomorphic(String s, String t) {
+        if(s.length()!=t.length())
+        return false;
+        if(!decode(s).equals(decode(t)))
+        return false;
+        else
+        return true;
+
+        
+    }
+}
+
+//Way 2:
+public class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if(s.length()!=t.length())
+        return false;
+         HashMap<Character,Integer> shmap=new HashMap<Character,Integer>();
+         HashMap<Character,Integer> thmap=new HashMap<Character,Integer>();
+         String decode1="";
+         int k=0;
+        for(int i=0;i<s.length();i++)
+        {
+           if(!shmap.containsKey(s.charAt(i))&&!thmap.containsKey(t.charAt(i)))
+           {
+               k++;
+               shmap.put(s.charAt(i),k);
+               thmap.put(t.charAt(i),k);
+           }
+           else if(!shmap.containsKey(s.charAt(i))&&thmap.containsKey(t.charAt(i)))
+           return false;
+           else if(shmap.containsKey(s.charAt(i))&&!thmap.containsKey(t.charAt(i)))
+           return false;
+           else if(shmap.get(s.charAt(i))!=thmap.get(t.charAt(i)))
+           {
+              return false;
+           }
+        }
+        return true;
+    }
+}
