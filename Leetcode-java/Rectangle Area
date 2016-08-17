@@ -1,0 +1,20 @@
+/**
+Find the total area covered by two rectilinear rectangles in a 2D plane.
+
+Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.
+**/
+/* 
+public class Solution {
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        if(A<=G&&E<=C&&D>=F&&H>=B)
+        {
+           int[] x={A,C,E,G};
+           int[] y={B,F,D,H};
+           Arrays.sort(x);
+           Arrays.sort(y);
+           return Math.abs((A-C)*(B-D))+Math.abs((E-G)*(H-F))-(x[2]-x[1])*(y[2]-y[1]);
+        }
+        else
+        return Math.abs((A-C)*(B-D))+Math.abs((E-G)*(H-F));
+    }
+}
