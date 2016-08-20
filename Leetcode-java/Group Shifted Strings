@@ -1,0 +1,60 @@
+/**
+Given a string, we can "shift" each of its letter to its successive letter, for example: "abc" -> "bcd". We can keep "shifting" which forms the sequence:
+
+"abc" -> "bcd" -> ... -> "xyz"
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.
+
+For example, given: ["abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"], 
+A solution is:
+
+[
+  ["abc","bcd","xyz"],
+  ["az","ba"],
+  ["acef"],
+  ["a","z"]
+]
+**/
+/* 
+public class Solution {
+    public String decode(String s)
+    {
+        if(s==null)
+        return s;
+        if(s.length()==1)
+        return "1";
+        String res=""+'1';
+        for(int j=1;j<s.length();j++)
+        {
+            if(s.charAt(j)-s.charAt(j-1)>0)
+            res+=""+(int)(s.charAt(j)-s.charAt(j-1));
+            else
+            res+=""+(int)(s.charAt(j)-s.charAt(j-1)+26);
+        }
+        return res;
+       
+        
+    }
+    public List<List<String>> groupStrings(String[] strings) {
+        ArrayList<List<String>> res=new ArrayList<List<String>>();
+        HashMap<String,List<String>> db=new HashMap<String,List<String>>();
+        for(int i=0;i<strings.length;i++)
+        {
+            if(!db.containsKey(decode(strings[i])))
+            {
+                ArrayList<String> ele=new ArrayList<String>();
+                ele.add(strings[i]);
+                db.put(decode(strings[i]),ele);
+            }
+            else
+            {
+                db.get(decode(strings[i])).add(strings[i]);
+            }
+        }
+        for(String e:db.keySet())
+        {
+            Collections.sort(db.get(e));
+            res.add(db.get(e));
+        }
+        return res;
+    }
+}
