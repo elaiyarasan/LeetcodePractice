@@ -1,0 +1,65 @@
+/**
+Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
+
+Only one letter can be changed at a time
+Each intermediate word must exist in the word list
+For example,
+
+Given:
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log"]
+As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+return its length 5.
+**/
+
+
+public class Solution {
+     private List<String> findneighbors(String item, Set<String> visited, Set<String> wordDict){
+        List<String> result = new ArrayList<String>();
+        char[] array = item.toCharArray();
+        for(int i = 0; i < array.length; i++){
+            char recordChar = array[i];
+            for(int k = 0; k < 26; k++){
+                char newChar = (char)('a' + k);
+                array[i] = newChar;
+                String newStr = new String(array);
+                if(!visited.contains(newStr) && wordDict.contains(newStr)){
+                    result.add(newStr);
+                    visited.add(newStr);
+                }
+            }
+            array[i] = recordChar;
+        }
+        return result;
+    }
+    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+        HashSet<String> visited=new HashSet<String>();
+        int length=0;
+        LinkedList<String> queue=new LinkedList<String>();
+        visited.add(beginWord);
+        queue.add(beginWord);
+        while(!queue.isEmpty()){
+            length++;
+            LinkedList<String> temp=new LinkedList<String>();
+            while(!queue.isEmpty())
+            {
+                String cur=queue.poll();
+                if(cur.equals(endWord))
+                return length;
+                
+                List<String> sub=findneighbors(cur,visited,wordList);
+                for(int i=0;i<sub.size();i++)
+                {
+                    temp.add(sub.get(i));
+                    visited.add(sub.get(i));
+                }
+              
+            }
+             queue=temp;
+        }
+      
+        return 0;
+        
+    }
+}
