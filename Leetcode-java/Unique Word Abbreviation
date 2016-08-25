@@ -1,0 +1,68 @@
+/**
+An abbreviation of a word follows the form <first letter><number><last letter>. Below are some examples of word abbreviations:
+
+a) it                      --> it    (no abbreviation)
+
+     1
+b) d|o|g                   --> d1g
+
+              1    1  1
+     1---5----0----5--8
+c) i|nternationalizatio|n  --> i18n
+
+              1
+     1---5----0
+d) l|ocalizatio|n          --> l10n
+Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary. A word's abbreviation is unique if no other word from the dictionary has the same abbreviation.
+
+Example: 
+Given dictionary = [ "deer", "door", "cake", "card" ]
+
+isUnique("dear") -> false
+isUnique("cart") -> true
+isUnique("cane") -> false
+isUnique("make") -> true
+**/
+
+public class ValidWordAbbr {
+    private HashMap<String, HashSet<String> > map;
+
+    public ValidWordAbbr(String[] dictionary) {
+        map = new HashMap<String, HashSet<String> >();
+        for(String str:dictionary){
+            String abr = getAbr(str);
+            if(map.containsKey(abr)){
+                map.get(abr).add(str);
+            }else{
+                HashSet<String> item = new HashSet<String>();
+                item.add(str);
+                map.put(abr, item);
+            }
+        }
+    }
+
+    public boolean isUnique(String word) {
+        String abr = getAbr(word);
+        if(map.containsKey(abr)){
+            HashSet<String> set = map.get(abr); 
+            if(set.size()==1 && set.contains(word)) return true; 
+            return false;
+        }
+        return true;
+    }
+    private String getAbr(String str){
+        if(str==null ){
+            return "null";
+        }
+        if(str.length()<=2){
+            return str;
+        }
+        return str.substring(0,1)+(str.length()-2)+str.substring(str.length()-1, str.length());
+    }
+}
+
+
+// Your ValidWordAbbr object will be instantiated and called as such:
+// ValidWordAbbr vwa = new ValidWordAbbr(dictionary);
+// vwa.isUnique("Word");
+// vwa.isUnique("anotherWord");
