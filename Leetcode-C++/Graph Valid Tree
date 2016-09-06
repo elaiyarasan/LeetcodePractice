@@ -1,0 +1,40 @@
+/**
+Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes), write a function to check whether these edges make up a valid tree.
+
+For example:
+
+Given n = 5 and edges = [[0, 1], [0, 2], [0, 3], [1, 4]], return true.
+
+Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]], return false.
+
+Show Hint 
+Note: you can assume that no duplicate edges will appear in edges. Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
+
+Show Company Tags
+Show Tags
+Show Similar Problems
+
+
+**/
+
+class Solution {
+public:
+    bool validTree(int n, vector<pair<int, int>>& edges) {
+        vector<int> root(n, -1);
+        for(int i = 0; i < edges.size(); i++) {
+            int root1 = findgroup(root, edges[i].first);//root1 is the group index of  edges[i].first;
+            int root2 = findgroup(root, edges[i].second);
+            if(root1 == root2)//if these two points are already in the same group(has same group index)
+                return false;// because of cycle;
+            root[root1] = root2; // uniform the group index;
+        }
+        return edges.size() == n - 1;//if tree, given n nodes if only if n-1 edges.
+    }
+    
+    int findgroup(vector<int> &root, int e) {
+        if(root[e] == -1)//e was not in any group
+            return e;    //return e as its group index
+        else//if e already has a group index;
+            findgroup(root, root[e]); // return e's group index;
+    }
+};

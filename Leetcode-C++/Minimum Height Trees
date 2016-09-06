@@ -1,0 +1,78 @@
+/**
+here are a total of n courses you have to take, labeled from 0 to n - 1.
+
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+
+Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+
+For example:
+
+2, [[1,0]]
+There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.
+
+2, [[1,0],[0,1]]
+There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+Note:
+The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about how a graph is represented.
+
+click to show more hints.
+
+**/
+
+class Solution {
+public:
+   struct Node{
+            unordered_set<int> neighbor;
+            bool isLeaf()const{return neighbor.size()==1;}
+        };
+    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
+            vector<int> pB1;
+            vector<int> pB2;
+            if(n==1){
+                pB1.push_back(0);
+                return pB1;
+            }
+            if(n==2){
+                pB1.push_back(0);
+                pB1.push_back(1);
+                return pB1;
+            }
+
+
+            // build the graph
+            vector<Node> nodes(n);
+            for(auto p:edges){
+                nodes[p.first].neighbor.insert(p.second);
+                nodes[p.second].neighbor.insert(p.first);
+            }
+
+
+            // find all leaves
+            for(int i=0; i<n; ++i){
+                if(nodes[i].isLeaf()) 
+                    pB1.push_back(i);
+            }
+
+
+            // remove leaves layer-by-layer            
+            while(true){
+                for(int i : pB1){
+                    //下面这个循环体应该只会执行一次，因为是叶子节点，只有一个邻接节点
+                    for(auto j: nodes[i].neighbor){
+                        //删除叶子节点，同时记录因此产生的新一轮的叶子节点
+                        nodes[j].neighbor.erase(i);
+                        if(nodes[j].isLeaf()) 
+                            pB2.push_back(j);
+                    }
+                }
+                if(pB2.empty()){
+                    return pB1;
+                }
+                pB1.clear();
+                swap(pB1, pB2);
+            }
+    }
+
+
+};
