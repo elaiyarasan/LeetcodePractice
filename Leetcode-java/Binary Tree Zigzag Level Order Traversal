@@ -1,0 +1,79 @@
+/**
+Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its zigzag level order traversal as:
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+Show Company Tags
+Hide Tags
+**/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res=new ArrayList<>();
+        if(root==null)
+        return res;
+        int flag=1;
+        Stack<TreeNode> sta=new Stack<TreeNode>();
+        List<Integer> sub=new ArrayList<Integer>();
+        sub.add(root.val);
+        res.add(sub);
+        sta.push(root);
+        while(!sta.isEmpty()){
+            flag=-1*flag;
+            Stack<TreeNode> temp=new Stack<TreeNode>();
+            List<Integer> subs=new ArrayList<Integer>();
+            while(!sta.isEmpty()){
+                TreeNode cur=sta.peek();
+                sta.pop();
+                if(flag==-1){
+                    if(cur.right!=null){
+                        temp.add(cur.right);
+                        subs.add(cur.right.val);
+                    }
+                    if(cur.left!=null){
+                       temp.add(cur.left);
+                       subs.add(cur.left.val); 
+                    }
+                }
+                else{
+                    if(cur.left!=null){
+                        temp.add(cur.left);
+                        subs.add(cur.left.val);
+                    }
+                    if(cur.right!=null){
+                        temp.add(cur.right);
+                        subs.add(cur.right.val);
+                    }
+                }
+            }
+            if(temp.size()!=0)
+            {
+               sta=temp;
+               res.add(subs); 
+            }
+        }
+        return res;
+        
+        
+        
+    }
+}
