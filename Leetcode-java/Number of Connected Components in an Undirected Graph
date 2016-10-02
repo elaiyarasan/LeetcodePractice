@@ -1,0 +1,61 @@
+/**
+Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes), write a function to find the number of connected components in an undirected graph.
+
+Example 1:
+     0          3
+     |          |
+     1 --- 2    4
+Given n = 5 and edges = [[0, 1], [1, 2], [3, 4]], return 2.
+
+Example 2:
+     0           4
+     |           |
+     1 --- 2 --- 3
+Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [3, 4]], return 1.
+**/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int countComponents(int n, int[][] edges) {
+        List<List<Integer>> matrix=new ArrayList<>();
+        boolean[] flag=new boolean[n];
+        int nums=0;
+        for(int i=0;i<n;i++){
+            List<Integer> sub=new ArrayList<Integer>();
+            matrix.add(sub);
+        }
+        for(int j=0;j<edges.length;j++){
+            matrix.get(edges[j][0]).add(edges[j][1]);
+            matrix.get(edges[j][1]).add(edges[j][0]);
+        }
+        for(int k=0;k<n;k++)
+        {
+            if(flag[k]==false)
+            {
+              nums++;
+              DFS(matrix,flag,k);  
+            }
+            
+        }
+        return nums;
+    }
+    public void DFS(List<List<Integer>> matrix,boolean[] flag,int k){
+        flag[k]=true;
+        for(int i=0;i<matrix.get(k).size();i++)
+        {
+            if(flag[matrix.get(k).get(i)]==true)
+            continue;
+            else {
+                flag[matrix.get(k).get(i)]=true;
+                DFS(matrix,flag,matrix.get(k).get(i));
+            }
+        }
+    }
+}
