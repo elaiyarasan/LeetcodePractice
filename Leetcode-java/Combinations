@@ -25,7 +25,7 @@ public class Solution {
             ans.add(new ArrayList<Integer>(subl));//IMPORTANT
             return;
         }
-        for(int i = s; i+k < n; i++){
+        for(int i = s; i <= n - k + 1; i++){
             subl.add(i);
             helper(++s,n,k-1,subl);//++s!!!
             //IMPORTANT
