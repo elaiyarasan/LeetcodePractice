@@ -1,0 +1,41 @@
+Add Two Numbers
+/**
+Given a non-empty array of integers, return the k most frequent elements.
+
+For example,
+Given [1,1,1,2,2,3] and k = 2, return [1,2].
+
+Note: 
+You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+Your algorithm's time complexity must be better than O(n log n), where n is the array's size.**/
+
+/**
+public class Solution {
+    public int longestPalindrome(String s) {
+        if(s==null||s.length()==0)
+        return 0;
+        Map<Character,Integer> hmap=new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            if(!hmap.containsKey(s.charAt(i)))
+            hmap.put(s.charAt(i),1);
+            else
+            hmap.put(s.charAt(i),hmap.get(s.charAt(i))+1);
+        }
+        int sum=0;
+        int flag=0;
+        for(char ch: hmap.keySet()){
+            if(hmap.get(ch)%2==0)
+            sum+=hmap.get(ch);
+            else
+            {
+                 sum+=hmap.get(ch)-1;
+                 flag=1;
+            }
+           
+        }
+        if(flag==0)
+        return sum;
+        else
+        return sum+1;
+    }
+}

@@ -10,15 +10,18 @@ Could you do it using only constant space complexity?
 
 /**
 public class Solution {
-  public boolean verifyPreorder(int[] preorder) {
-    int low = Integer.MIN_VALUE, i = -1;
-    for (int p : preorder) {
-        if (p < low)
+    public boolean verifyPreorder(int[] preorder) {
+        int root=Integer.MIN_VALUE;
+        Stack<Integer> leftbranch=new Stack<>();
+        for(int node:preorder){
+            if(node<root)
             return false;
-        while (i >= 0 && p > preorder[i])
-            low = preorder[i--];
-        preorder[++i] = p;
+            while(!leftbranch.isEmpty()&&node>leftbranch.peek())
+            {
+                root=leftbranch.pop();
+            }
+            leftbranch.push(node);
+        }
+        return true;
     }
-    return true;
-}
 }
