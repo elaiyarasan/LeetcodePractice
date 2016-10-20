@@ -1,4 +1,4 @@
-/**
+ret/**
 Given a binary tree, determine if it is a valid binary search tree (BST).
 
 Assume a BST is defined as follows:
@@ -37,5 +37,17 @@ public class Solution {
           return false;
       }
       return true;
+    }
+}
+
+//simplified way
+public class Solution {
+    public static boolean isValidBST(TreeNode root) {
+        return root == null || dfs(root, Long.MAX_VALUE, Long.MIN_VALUE); 
+        
+    }
+    public static boolean dfs(TreeNode root, long max, long min) {
+        return root == null || !(root.val >= max || root.val <= min) && dfs(root.left, root.val, min) && dfs(root.right, max, root.val);
+        
     }
 }
