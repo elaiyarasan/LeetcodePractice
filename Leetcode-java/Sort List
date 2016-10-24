@@ -1,0 +1,48 @@
+/**
+Sort a linked list in O(n log n) time using constant space complexity.
+**/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+
+//This is quicksort based solution
+public class Solution {
+   public ListNode sortList(ListNode head) {
+        if (head==null || head.next==null)
+            return head;
+
+        ListNode pivot = head, pivotTail = pivot;
+
+        ListNode leftHead=new ListNode(0), rightHead=new ListNode(0);
+        ListNode leftTail = leftHead, rightTail = rightHead;
+        ListNode tmp = head.next;
+        while (tmp != null) {
+            if (tmp.val < pivot.val )
+                leftTail = (leftTail.next = tmp);
+            else if (tmp.val > pivot.val )
+                rightTail = (rightTail.next=tmp);
+            else
+                pivotTail = (pivotTail.next=tmp);
+            tmp = tmp.next;
+        }
+        leftTail.next = null;
+        rightTail.next = null;
+
+        leftHead.next = sortList(leftHead.next);
+        rightHead.next = sortList(rightHead.next);
+
+        tmp = leftHead;
+        while (tmp.next!=null)
+            tmp = tmp.next;
+        tmp.next = pivot;
+        pivotTail.next = rightHead.next;
+
+        return leftHead.next;
+        
+    }
+}
