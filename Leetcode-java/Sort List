@@ -1,6 +1,9 @@
 /**
 Sort a linked list in O(n log n) time using constant space complexity.
 **/
+
+
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -12,37 +15,46 @@ Sort a linked list in O(n log n) time using constant space complexity.
 
 //This is quicksort based solution
 public class Solution {
-   public ListNode sortList(ListNode head) {
-        if (head==null || head.next==null)
-            return head;
-
-        ListNode pivot = head, pivotTail = pivot;
-
-        ListNode leftHead=new ListNode(0), rightHead=new ListNode(0);
-        ListNode leftTail = leftHead, rightTail = rightHead;
-        ListNode tmp = head.next;
-        while (tmp != null) {
-            if (tmp.val < pivot.val )
-                leftTail = (leftTail.next = tmp);
-            else if (tmp.val > pivot.val )
-                rightTail = (rightTail.next=tmp);
+    public ListNode sortList(ListNode head) {
+        if(head==null||head.next==null)
+        return head;
+        ListNode mid=head,midtail=head;
+        ListNode left=new ListNode(0);
+        ListNode right=new ListNode(0);
+        ListNode lefttail=left;
+        ListNode righttail=right;
+        ListNode temp=head.next;
+        while(temp!=null){
+            if(temp.val<midtail.val)
+            {
+                lefttail.next=temp;
+                lefttail=temp;
+            }
+            else if(temp.val>midtail.val)
+            {
+                righttail.next=temp;
+                righttail=temp;
+            }
             else
-                pivotTail = (pivotTail.next=tmp);
-            tmp = tmp.next;
+            {
+                midtail.next=temp;
+                midtail=temp;
+            }
+            temp=temp.next;
         }
-        leftTail.next = null;
-        rightTail.next = null;
-
-        leftHead.next = sortList(leftHead.next);
-        rightHead.next = sortList(rightHead.next);
-
-        tmp = leftHead;
-        while (tmp.next!=null)
-            tmp = tmp.next;
-        tmp.next = pivot;
-        pivotTail.next = rightHead.next;
-
-        return leftHead.next;
+        lefttail.next=null;
+        righttail.next=null;
+        
+        left.next=sortList(left.next);
+        right.next=sortList(right.next);
+        
+        temp=left;
+        while(temp.next!=null){
+            temp=temp.next;
+        }
+        temp.next=mid;
+        midtail.next=right.next;
+        return left.next;
         
     }
 }
