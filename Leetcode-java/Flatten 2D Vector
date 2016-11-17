@@ -25,16 +25,22 @@ public class Vector2D implements Iterator<Integer> {
 
     @Override
     public Integer next() {
+        while(x<vec.size()&&y==vec.get(x).size()){
+            x++;
+            y=0;
+        }
         return vec.get(x).get(y++);
     }
 
     @Override
     public boolean hasNext() {
-        while(x<vec.size()&&y==vec.get(x).size()){
-            x++;
-            y=0;
+        int x0=x;
+        int y0=y;
+        while(x0<vec.size()&&y0==vec.get(x0).size()){
+            x0++;
+            y0=0;
         }
-        return x<vec.size();
+        return x0<vec.size();
     }
 }
 
