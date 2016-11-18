@@ -14,7 +14,7 @@ Given 2d vector =
 By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,2,3,4,5,6].
 
 **/
-//
+(1) Use coordinate
 public class Vector2D implements Iterator<Integer> {
     List<List<Integer>> vec;
     int x=0;
@@ -41,6 +41,36 @@ public class Vector2D implements Iterator<Integer> {
             y0=0;
         }
         return x0<vec.size();
+    }
+}
+
+//(2)Use iterator
+public class Vector2D implements Iterator<Integer> {
+    Queue<Iterator<Integer>> queue;
+    public Vector2D(List<List<Integer>> vec2d) {
+        this.queue=new LinkedList<Iterator<Integer>>();
+        for(List<Integer> line:vec2d){
+            if(line.iterator().hasNext()){
+                queue.offer(line.iterator());
+            }
+        }
+    }
+
+    @Override
+    public Integer next() {
+       Integer res = queue.peek().next();
+       
+       while(!queue.isEmpty()&&!queue.peek().hasNext())
+      {
+        queue.remove(); 
+      }
+        
+          return res;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !queue.isEmpty();
     }
 }
 
