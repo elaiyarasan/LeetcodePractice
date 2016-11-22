@@ -1,0 +1,36 @@
+/**
+Write a function to generate the generalized abbreviations of a word.
+
+Example:
+Given word = "word", return the following list (order does not matter):
+["word", "1ord", "w1rd", "wo1d", "wor1", "2rd", "w2d", "wo2", "1o1d", "1or1", "w1r1", "1o2", "2r1", "3d", "w3", "4"]
+**/
+public class Solution {
+    public List<String> generateAbbreviations(String word) {
+        List<String> res=new ArrayList<>();
+        if(word==null)
+        return res;
+        dfs(word.toCharArray(),"",0,0,res);
+        return res;
+    }
+    public void dfs(char[] word,String abb,int from, int last, List<String> res){
+        if(from==word.length){
+            res.add(abb);
+            return;
+        }
+        for(int i=0;from+i<=word.length;i++){
+            if(i==0)
+            dfs(word,abb+word[from],from+1,i,res);
+            else{
+                dfs(word,abb+i,from+i,i,res);
+            }
+            if(last>0)//two digit can not be neighbor
+            break;
+          
+        }
+    }
+}
+//My understanding:
+word->w+i+d,here i=2;
+from last point of char
+if(abbr==xx1)
