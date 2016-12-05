@@ -10,24 +10,29 @@ Given n = 2, return ["11","69","88","96"].
 (1) No recursion
 public class Solution {
     public List<String> findStrobogrammatic(int n) {
-        List<String> one = Arrays.asList("0", "1", "8"), two = Arrays.asList(""), r = two;
-        if(n%2 == 1)
-            r = one;
-        for(int i=(n%2)+2; i<=n; i+=2){
-            List<String> newList = new ArrayList<>();
-            for(String str : r){
-                if(i != n)
-                    newList.add("0" + str + "0");
-                newList.add("1" + str + "1");
-                newList.add("6" + str + "9");
-                newList.add("8" + str + "8");
-                newList.add("9" + str + "6");
-            }
-            r = newList;
+        List<String> base=new ArrayList<>();
+        if(n==0) return base;
+        
+        if(n%2==0) base.add("");
+        else {
+            base=Arrays.asList("0","1","8");
+            n-=1;
         }
-        return r;   
+        for(int i=n;n>0;n-=2){
+            List<String> temp=new ArrayList<>();
+            for(String s:base){
+                if(n!=2)
+                temp.add("0"+s+"0");//aviod 0...0
+                
+                temp.add("1"+s+"1");
+                temp.add("6"+s+"9");
+                temp.add("8"+s+"8");
+                temp.add("9"+s+"6");
+            }
+            base=temp;
+        }
+        return base;
     }
-
 }
 
 (2)recursion:
