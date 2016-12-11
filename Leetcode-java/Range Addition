@@ -33,6 +33,20 @@ After applying operation [2, 4, 3]:
 After applying operation [0, 2, -2]:
 [-2, 0, 3, 5, 3 ]
 /**
+(1) Brute Force: O(n^2) Time Limit Extend
+public class Solution {
+    public int[] getModifiedArray(int length, int[][] updates) {
+        int[] res=new int[length];
+        for(int[] update:updates){
+            for(int i=update[0];i<=update[1];i++){
+                res[i]+=update[2];
+            }
+        }
+        return res;
+    }
+}
+
+(2)O(K + N)
 public class Solution {
     public int[] getModifiedArray(int length, int[][] updates) {
 
