@@ -47,6 +47,12 @@ public class Solution {
 }
 
 (2)O(K + N)
+
+滚雪球
+0  0  0  0  0
+  -2     2
+———————-----
+  -2 -2  0
 public class Solution {
     public int[] getModifiedArray(int length, int[][] updates) {
 
@@ -56,10 +62,10 @@ public class Solution {
         int start = update[0];
         int end = update[1];
         
-        res[start] += value;
+        res[start] += value; // mark start position
         
         if(end < length - 1)
-            res[end + 1] -= value;
+            res[end + 1] -= value;  //mark end position
         
     }
     
