@@ -15,7 +15,7 @@ transactions = [buy, sell, cooldown, buy, sell]
 //sell[i] = max(buy[i-1]+price, sell[i-1])
 //rest[i] = max(sell[i-1], buy[i-1], rest[i-1])
 public class Solution {
-    //buy[i] = max(sell[i-2]-price, buy[i-1])
+    //buy[i] = max(sell[i-2]-price, buy[i-1])=max(sell[i-1]-price, buy[i-1])
     //sell[i] = max(buy[i-1]+price, sell[i-1])
     public int maxProfit(int[] prices) {
     int sell = 0, prev_sell = 0, buy = Integer.MIN_VALUE, prev_buy;
