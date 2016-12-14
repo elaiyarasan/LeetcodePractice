@@ -11,6 +11,9 @@ prices = [1, 2, 3, 0, 2]
 maxProfit = 3
 transactions = [buy, sell, cooldown, buy, sell]
 /**
+//buy[i]  = max(rest[i-1]-price, buy[i-1]) 
+//sell[i] = max(buy[i-1]+price, sell[i-1])
+//rest[i] = max(sell[i-1], buy[i-1], rest[i-1])
 public class Solution {
     //buy[i] = max(sell[i-2]-price, buy[i-1])
     //sell[i] = max(buy[i-1]+price, sell[i-1])
