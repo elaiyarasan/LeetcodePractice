@@ -24,6 +24,7 @@ Show Tags
 .**/
 /* 
 (1) Binary Searchs
+O(nlogm)
 public class Solution {
     public int findRadius(int[] houses, int[] heaters) {
         Arrays.sort(heaters);
@@ -44,18 +45,22 @@ public class Solution {
     }
 }
 
-(2)Two pointers
+(2)Two pointers O(nm)
+//the idea is to find the nearest heater for each house, by comparing the next heater with the current heater.
+public class Solution {
 public class Solution {
     public int findRadius(int[] houses, int[] heaters) {
         Arrays.sort(houses);
         Arrays.sort(heaters);
         
-        int i = 0, res = 0;
-        for (int house : houses) {
-            while (i < heaters.length - 1 && heaters[i] + heaters[i + 1] <= house * 2) {
-                i++;
+        int i = 0, j = 0, res = 0;
+        while (i < houses.length) {
+            while (j < heaters.length - 1
+                && Math.abs(heaters[j + 1] - houses[i]) <= Math.abs(heaters[j] - houses[i])) {
+                j++;
             }
-            res = Math.max(res, Math.abs(heaters[i] - house));
+            res = Math.max(res, Math.abs(heaters[j] - houses[i]));
+            i++;
         }
         
         return res;
