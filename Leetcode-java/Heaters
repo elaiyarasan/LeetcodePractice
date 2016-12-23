@@ -53,7 +53,7 @@ public class Solution {
         Arrays.sort(houses);
         Arrays.sort(heaters);
         
-        int i = 0, j = 0, res = 0;
+        int i = 0, j = 0, res = 0;// j should be here, otherwise repeated work.
         while (i < houses.length) {
             while (j < heaters.length - 1
                 && Math.abs(heaters[j + 1] - houses[i]) <= Math.abs(heaters[j] - houses[i])) {
