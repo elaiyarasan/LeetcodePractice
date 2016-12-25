@@ -96,8 +96,7 @@ public class Solution {
 
                 cur = cur.children[idx];
             }
-            ans.addAll(cur.startWith);
-            return ans;
+            return cur.startWith;
         }
     }
 
@@ -109,7 +108,7 @@ public class Solution {
         Trie trie = new Trie(words);
         List<String> ansBuilder = new ArrayList<>();
         for (String w : words) {
-            ansBuilder.add(w);sss
+            ansBuilder.add(w);
             search(len, trie, ans, ansBuilder);
             ansBuilder.remove(ansBuilder.size() - 1);
         }
