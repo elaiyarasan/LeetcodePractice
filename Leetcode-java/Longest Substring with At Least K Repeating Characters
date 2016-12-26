@@ -6,7 +6,7 @@ Example 1:
 Input:
 s = "aaabb", k = 3
 
-Output:
+Output:、
 3
 
 The longest substring is "aaa", as 'a' is repeated 3 times.
@@ -33,17 +33,17 @@ private int helper(char[] str, int start, int end,  int k){
         int idx = str[i]-'a';
         count[idx]++;
     }
-    for(int i = 0;i<26;i++){
-        if(count[i]<k&&count[i]>0){ //count[i]=0 => i+'a' does not exist in the string, skip it.
+  
+        //count[i]=0 => i+'a' does not exist in the string, skip it.
             for(int j = start;j<end;j++){
-                if(str[j]==i+'a'){
+                if(count[str[j]-'a']<k&&count[str[j]-'a']>0){
                     int left = helper(str,start,j,k);
                     int right = helper(str,j+1,end,k);
                     return Math.max(left,right);
                 }
             }
-        }
-    }
+        
+    
     return end-start;
 }
 }
