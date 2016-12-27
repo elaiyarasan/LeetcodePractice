@@ -8,16 +8,28 @@ T is "ece" which its length is 3.
 /* 
 public class Solution {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
-        int[] count = new int[256];
-        int num = 0, i = 0, res = 0;
-        for (int j = 0; j < s.length(); j++) {
-            if (count[s.charAt(j)]++ == 0) num++;
-            if (num > k) {
-                while (--count[s.charAt(i++)] > 0);
-                num--;
+        if(s.length() < 1) return 0;
+        HashMap<Character,Integer> index = new HashMap<Character,Integer>();
+        int lo = 0;
+        int hi = 0;
+        int maxLength = 0;
+        while(hi < s.length()) {
+            if(index.size() <= k) {
+                char c = s.charAt(hi);
+                index.put(c, hi);
+                hi++;
             }
-            res = Math.max(res, j - i + 1);
+            if(index.size() > k) {
+                int leftMost = s.length();
+                for(int i : index.values()) {
+                    leftMost = Math.min(leftMost,i);
+                }
+                char c = s.charAt(leftMost);
+                index.remove(c);
+                lo = leftMost+1;
+            }
+            maxLength = Math.max(maxLength, hi-lo);
         }
-        return res;
+        return maxLength;
     }
 }
