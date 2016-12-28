@@ -59,7 +59,7 @@ public List<Integer> numIslands2(int m, int n, int[][] positions) {
             int rootNb = findIsland(roots, nb);
             if(root != rootNb) {        // if neighbor is in another island
                 roots[root] = rootNb;   // union two islands 
-                root = rootNb;          // current tree root = joined tree root
+                root = rootNb;          // current tree root = joined tree root//like to  find parents.
                 count--;               
             }
         }
