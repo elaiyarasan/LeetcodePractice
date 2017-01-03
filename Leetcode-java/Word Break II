@@ -10,32 +10,56 @@ dict = ["cat", "cats", "and", "sand", "dog"].
 A solution is ["cats and dog", "cat sand dog"].
 .**/
 /* 
+(1)DP Time Limit Extended
+ public class Solution {
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+        LinkedList<String>[] dp = new LinkedList[s.length() + 1];
+        LinkedList<String> initial = new LinkedList<>();
+        initial.add("");
+        dp[0] = initial;
+        for (int i = 1; i <= s.length(); i++) {
+            LinkedList<String> list = new LinkedList<>();
+            for (int j = 0; j < i; j++) {
+                if (dp[j].size() > 0 && wordDict.contains(s.substring(j, i))) {
+                    for (String l : dp[j]) {
+                        list.add(l + (l.equals("") ? "" : " ") + s.substring(j, i));
+                    }
+                }
+            }
+            dp[i] = list;
+        }
+        return dp[s.length()];
+    }
+}
+
+
+
+(2)Recursion with memorization
+
 public class Solution {
-    HashMap<Integer, List<String>> dp = new HashMap<>();
 
     public List<String> wordBreak(String s, Set<String> wordDict) {
-        int maxLength = -1;
-        for(String ss : wordDict) maxLength = Math.max(maxLength, ss.length());
-        return addSpaces(s, wordDict, 0, maxLength);
+        return word_Break(s, wordDict, 0);
     }
-    
-    private List<String> addSpaces(String s, Set<String> wordDict, int start, int max){
-        List<String> words = new ArrayList<>();
-        if(start == s.length()) {
-            words.add("");
-            return words;
+    HashMap<Integer, List<String>> map = new HashMap<>();
+
+    public List<String> word_Break(String s, Set<String> wordDict, int start) {
+        if (map.containsKey(start)) {
+            return map.get(start);
         }
-        for(int i = start + 1; i <= max + start && i <= s.length(); i++){
-            String temp = s.substring(start, i);
-            if(wordDict.contains(temp)){
-                List<String> ll;
-                if(dp.containsKey(i)) ll = dp.get(i);
-                else ll = addSpaces(s, wordDict, i, max);
-                for(String ss : ll) words.add(temp + (ss.equals("") ? "" : " ") + ss);
+        LinkedList<String> res = new LinkedList<>();
+        if (start == s.length()) {
+            res.add("");
+        }
+        for (int end = start + 1; end <= s.length(); end++) {
+            if (wordDict.contains(s.substring(start, end))) {
+                List<String> list = word_Break(s, wordDict, end);
+                for (String l : list) {
+                    res.add(s.substring(start, end) + (l.equals("") ? "" : " ") + l);
+                }
             }
-            
         }
-        dp.put(start, words);
-        return words;
+        map.put(start, res);
+        return res;
     }
 }
