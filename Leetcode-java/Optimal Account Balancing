@@ -96,8 +96,8 @@ private int minTransStartsFrom(List<Integer> deltas, int start) {
     if (start == n)
         return 0;
     for (int i = start + 1; i < n; i++) {
-        if ((long) deltas.get(i) * deltas.get(start) < 0) {
-            deltas.set(i, deltas.get(i) + deltas.get(start));
+        if ((long) deltas.get(i) * deltas.get(start) < 0) {//one is + and one is -
+            deltas.set(i, deltas.get(i) + deltas.get(start));//backtracking
             result = Math.min(result, 1 + minTransStartsFrom(deltas, start + 1));
             deltas.set(i, deltas.get(i) - deltas.get(start));
     }
