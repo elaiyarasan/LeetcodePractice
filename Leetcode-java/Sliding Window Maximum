@@ -37,7 +37,7 @@ public class Solution {
 				q.poll();
 			}
 			// remove smaller numbers in k range as they are useless
-			while (!q.isEmpty() && a[q.peekLast()] < a[i]) {
+			while (!q.isEmpty() && a[q.peekLast()] < a[i]) {//后进的比前面的大，所以前面的就不可能是max.
 				q.pollLast();
 			}
 			// q contains index... r contains content
