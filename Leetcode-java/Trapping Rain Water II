@@ -17,71 +17,78 @@ Return 4.
 **/
 /* 
 public class Solution {
-    private static class Cell implements Comparable<Cell> {
-        private int row;
-        private int col;
-        private int value;
-        public Cell(int r, int c, int v) {
-            this.row = r;
-            this.col = c;
-            this.value = v;
-        }
-        @Override
-        public int compareTo(Cell other) {
-            return value - other.value;
+    class Cell{
+        int x;
+        int y;
+        int val;
+        public Cell(int x,int y, int val){
+            this.x = x;
+            this.y = y;
+            this.val = val;
         }
     }
-    private int water;
-    private boolean[][] visited1;
+    int[][] heightMap;
+    int[] lx = {0,0,-1,1};
+    int[] ly = {1,-1,0,0};
+    boolean [][] visited;
+    int water = 0;
+    PriorityQueue<Cell> walls = new PriorityQueue<>(new Comparator<Cell>(){
+        @Override
+        public int compare(Cell o1, Cell o2){
+            return o1.val - o2.val;
+        }
+    });
+    
+    
     public int trapRainWater(int[][] heightMap) {
-        if (heightMap.length == 0) return 0;
-        PriorityQueue<Cell> walls = new PriorityQueue<Cell>(); //minheap
-        water = 0;
-        visited1 = new boolean[heightMap.length][heightMap[0].length];
-        int rows = heightMap.length, cols = heightMap[0].length;
-        //build wall;
-        for (int c = 0; c < cols; c++) {
-        	walls.add(new Cell(0, c, heightMap[0][c]));
-        	walls.add(new Cell(rows - 1, c, heightMap[rows - 1][c]));
-        	visited1[0][c] = true;
-        	visited1[rows - 1][c] = true;
-        }
-        for (int r = 1; r < rows - 1; r++) {
-        	walls.add(new Cell(r, 0, heightMap[r][0]));
-        	walls.add(new Cell(r, cols - 1, heightMap[r][cols - 1]));
-        	visited1[r][0] = true;
-        	visited1[r][cols - 1] = true;
-        }
-        //end build wall;
-        while(walls.size() > 0) {
+        this.heightMap = heightMap;
+        if(heightMap == null || heightMap.length == 0 || heightMap[0].length == 0)
+        return 0;
+        initialize();
+        while(!walls.isEmpty()){
             Cell min = walls.poll();
-            visit(heightMap, min, walls);
+            traversal(min);
         }
         return water;
+        
     }
-    private void visit(int[][] height, Cell start, PriorityQueue<Cell> walls) {
-        fill(height, start.row + 1, start.col, walls, start.value);
-        fill(height, start.row - 1, start.col, walls, start.value);
-        fill(height, start.row, start.col + 1, walls, start.value);
-        fill(height, start.row, start.col - 1, walls, start.value);
-    }
-    private void fill(int[][] height, int row, int col, PriorityQueue<Cell> walls, int min) {
-        if (row < 0 || col < 0) return;
-        else if (row >= height.length || col >= height[0].length) return;
-        else if (visited1[row][col]) return;
-        else if (height[row][col] >= min) {
-            walls.add(new Cell(row, col, height[row][col]));
-            visited1[row][col] = true;
+    public void fill(int x, int y, int minWall){
+        if( x < 0 || y < 0 || x >= heightMap.length || y >= heightMap[0].length)
+        return;
+        if(visited[x][y] == true)
+        return;
+        if(heightMap[x][y] > minWall){
+            walls.add(new Cell(x,y, heightMap[x][y]));
+            visited[x][y] = true;
             return;
-        } else {
-//        	System.out.println(row + ", " + col + " height = " + height[row][col] + ", bar = " + min);
-            water += min - height[row][col];
-            visited1[row][col] = true;
-            fill(height, row + 1, col, walls, min);
-            fill(height, row - 1, col, walls, min);
-            fill(height, row, col + 1, walls, min);
-            fill(height, row, col - 1, walls, min);
+        }
+        else{
+            water += minWall - heightMap[x][y];
+            visited[x][y] = true;
+            traversal(new Cell(x,y,minWall));
+        }
+    }
+    public void traversal(Cell start){
+        for(int k = 0 ; k < 4 ; k ++ ){
+            int i = start.x + lx[k];
+            int j = start.y + ly[k];
+            fill(i,j,start.val);
+        }
+    }
+    public void initialize(){
+        int rows = heightMap.length, cols = heightMap[0].length;
+        visited = new boolean[rows][cols];
+        for(int i = 0 ; i < cols ; i++){
+            walls.add(new Cell(0,i,heightMap[0][i]));
+            walls.add(new Cell(rows-1,i, heightMap[rows-1][i]));
+            visited[0][i] = true;
+            visited[rows-1][i] = true;
+        }
+        for(int i = 1 ; i < rows -1; i++ ){
+            walls.add(new Cell(i,0, heightMap[i][0]));
+            walls.add(new Cell(i,cols -1, heightMap[i][cols-1]));
+            visited[i][0] = true;
+            visited[i][cols-1] = true;
         }
     }
 }
-
