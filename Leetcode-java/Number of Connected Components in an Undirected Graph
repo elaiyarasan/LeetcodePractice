@@ -22,6 +22,8 @@ Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [3, 4]], return 1.
  *     TreeNode(int x) { val = x; }
  * }
  */
+
+(1) Topology
 public class Solution {
     public int countComponents(int n, int[][] edges) {
         List<List<Integer>> matrix=new ArrayList<>();
@@ -57,5 +59,32 @@ public class Solution {
                 DFS(matrix,flag,matrix.get(k).get(i));
             }
         }
+    }
+}
+
+
+(2)Union-Find
+public class Solution {
+    public int countComponents(int n, int[][] edges) {
+        int[] roots = new int[n];
+        Set<Integer> set = new HashSet<>();
+        for(int i = 0 ; i < n; i++){
+            roots[i] = i;
+        }
+        for(int[] edge: edges){
+            int x = findroot(edge[0],roots);
+            int y = findroot(edge[1],roots);
+            roots[x] = y;
+        }
+        for(int i = 0; i < n;i++){
+            set.add(findroot(i,roots));
+        }
+        return set.size();
+    }
+    public int findroot(int i, int[] roots){
+        if(roots[i] != i)
+        return findroot(roots[i],roots);
+        else
+        return i;
     }
 }
