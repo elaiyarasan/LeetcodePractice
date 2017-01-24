@@ -25,7 +25,7 @@ public class Solution {
             // extend the length to the boundary(s)
             // of the sequence
             // will do nothing if n has no neighbors
-            map.put(n - left, sum);
+            map.put(n - left, sum); // 只和边界有关，因为判断是是考虑n-1,和n+1的情况。
             map.put(n + right, sum);
         }
         else {
