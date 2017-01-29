@@ -33,18 +33,15 @@ Special thanks to @dietpepsi for adding this problem and creating all test cases
 
 /* 
 public class Solution {
-     public boolean isValidSerialization(String preorder) {
-    String[] strs = preorder.split(",");
-    int degree = -1;         // root has no indegree, for compensate init with -1
-    for (String str: strs) {
-        degree++;             // all nodes have 1 indegree (root compensated)
-        if (degree > 0) {     // total degree should never exceeds 0
-            return false;
-        }      
-        if (!str.equals("#")) {// only non-leaf node has 2 outdegree
-            degree -= 2;
-        }  
+    public boolean isValidSerialization(String preorder) {
+    String[] nodes = preorder.split(",");
+    int diff = 1; // diff = out - in; for root, only out.
+    for (String node: nodes) {
+        diff--;   // in add one
+        if (diff < 0) return false;
+        if (!node.equals("#")) diff += 2; // out + 2
     }
-    return degree == 0;
+    return diff == 0;
+}
 }
 }
