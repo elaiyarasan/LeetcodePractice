@@ -65,6 +65,9 @@ public class Solution {
 }
 
 (2)Using Greedy Approach based on end points 
+////Min number of interval needed to remove 
+///= total interval - Max number of interval not overlaped
+
 public class Solution {
     class myComparator implements Comparator<Interval> {
         public int compare(Interval a, Interval b) {
