@@ -33,23 +33,57 @@ Show Similar Problems
  *     Interval(int s, int e) { start = s; end = e; }
  * }
  */
+
+See : 
+https://leetcode.com/articles/non-overlapping-intervals/
+
+(1)Using Greedy Approach based on starting points 
 public class Solution {
-       public int eraseOverlapIntervals(Interval[] intervals) {
-        Arrays.sort(intervals, new Comparator<Interval>() {
-            @Override
-            public int compare(Interval o1, Interval o2) {
-                if (o1.end != o2.end) return o1.end - o2.end;  //first sort by end
-                return o2.start - o1.start;  //second sort by start
-            }
-        });
-
-        int end = Integer.MIN_VALUE;
-        int count = 0;
-        for (Interval interval : intervals) {
-            if (interval.start >= end) end = interval.end;
-            else count++;
+    class myComparator implements Comparator<Interval> {
+        public int compare(Interval a, Interval b) {
+            return a.start - b.start;
         }
-
+    }
+    public int eraseOverlapIntervals(Interval[] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
+        Arrays.sort(intervals, new myComparator());
+        int end = intervals[0].end, prev = 0, count = 0;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[prev].end > intervals[i].start) {
+                if (intervals[prev].end > intervals[i].end) {
+                    prev = i;
+                }
+                count++;
+            } else {
+                prev = i;
+            }
+        }
         return count;
+    }
+}
+
+(2)Using Greedy Approach based on end points 
+public class Solution {
+    class myComparator implements Comparator<Interval> {
+        public int compare(Interval a, Interval b) {
+            return a.end - b.end;
+        }
+    }
+    public int eraseOverlapIntervals(Interval[] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
+        Arrays.sort(intervals, new myComparator());
+        int end = intervals[0].end;
+        int count = 1;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i].start >= end) {
+                end = intervals[i].end;
+                count++;
+            }
+        }
+        return intervals.length - count;
     }
 }
