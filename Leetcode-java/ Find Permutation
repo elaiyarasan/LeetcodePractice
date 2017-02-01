@@ -18,7 +18,7 @@ The input string will only contain the character 'D' and 'I'.
 The length of input string is a positive integer and will not exceed 10,000
 /**
 
-// For each k continuous D starting at index i we need to reverse [i, i+k] portion of the sorted sequence.
+// For each k continuous D starting at index i we need to reverse [i, i+k] portion of the sorted sequence. Notice: continuous D.
 public class Solution {
         public int[] findPermutation(String s) {
         int n = s.length(), arr[] = new int[n + 1]; 
