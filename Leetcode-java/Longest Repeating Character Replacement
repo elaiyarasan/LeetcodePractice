@@ -29,17 +29,22 @@ Replace the one 'A' in the middle with 'B' and form "AABBBBA".
 The substring "BBBB" has the longest repeating letters, which is 4.
 
 public class Solution {
-    public int characterReplacement(String s, int k)
-{
-    int[] count = new int[128];
-    int max=0;
-    int start=0;
-    for(int end=0; end<s.length(); end++)
-    {
-        max = Math.max(max, ++count[s.charAt(end)]);
-        if(max+k<=end-start)
-            count[s.charAt(start++)]--;
+    
+        public int characterReplacement(String s, int k) {
+        int len = s.length();
+        int[] count = new int[26];
+        int start = 0, maxCount = 0, maxLength = 0;
+        for (int end = 0; end < len; end++) {
+            maxCount = Math.max(maxCount, ++count[s.charAt(end) - 'A']);
+            while (end - start + 1 - maxCount > k) {
+                count[s.charAt(start) - 'A']--;
+                start++;
+            }
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+        return maxLength;
     }
-    return s.length()-start;
 }
-}
+//end - start + 1 : the length of window 
+//maxCount will record the max time that a character appears.
+// (end - start +1) - maxCount = times that we need to switch so that we can get all characters in the window to be the same characters.
