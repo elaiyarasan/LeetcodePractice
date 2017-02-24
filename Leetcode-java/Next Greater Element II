@@ -20,18 +20,21 @@ Note:
 All elements in nums1 and nums2 are unique.
 The length of both nums1 and nums2 would not exceed 1000.
 /**
-
 public class Solution {
-    public int[] nextGreaterElement(int[] findNums, int[] nums) {
-        Map<Integer, Integer> map = new HashMap<>(); // map from x to next greater element of x
-        Stack<Integer> stack = new Stack<>();
-        for (int num : nums) {
-            while (!stack.isEmpty() && stack.peek() < num)
-                map.put(stack.pop(), num);
-            stack.push(num);
-        }   
-        for (int i = 0; i < findNums.length; i++)
-            findNums[i] = map.getOrDefault(findNums[i], -1);
-        return findNums;
+    public int[] nextGreaterElements(int[] nums) {
+        if(nums == null || nums.length == 0) return new int[0];
+        int[] ret = new int[nums.length];
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        for(int i = nums.length - 2; i >= 0; i--) {
+            while(!stack.isEmpty() && nums[i] >= stack.peek()) stack.pop();
+            stack.push(nums[i]);
+        }
+        for(int i = nums.length - 1; i>= 0; i--) {
+            while(!stack.isEmpty() && nums[i] >= stack.peek()) stack.pop();
+            if(stack.isEmpty()) ret[i] = -1;
+            else ret[i] = stack.peek();
+            stack.push(nums[i]);
+        }
+        return ret;
     }
 }
