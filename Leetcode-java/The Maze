@@ -80,3 +80,37 @@ public class Solution {
         
     }
 }
+
+///（2）DFS
+public class Solution {
+    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+        boolean[][] visited = new boolean[maze.length][maze[0].length];
+        return dfs(maze,start,destination, visited);
+    }
+    public boolean dfs(int[][] maze, int[] start, int[] destination, boolean[][] visited){
+        if(start[0] == destination[0] && start[1] == destination[1])
+        return true;
+        if(visited[start[0]][start[1]] == true)
+        return false;
+        visited[start[0]][start[1]] = true;
+        int[][] dir = {{0,1},{0,-1},{1,0},{-1,0}};
+        for(int k = 0 ; k < 4; k++){
+           int[] res = findend(maze,start[0],start[1],dir[k]); 
+           if(res[0] == destination[0] && res[1] == destination[1])
+           return true;
+           if(dfs(maze,res,destination,visited))
+           return true;
+        }
+        return false;
+        
+    }
+    public int[] findend (int[][] maze, int i, int j, int[] dir) {
+        int x = i + dir[0];
+        int y = j + dir[1];
+        if(x < 0 || x >= maze.length || y < 0 || y >= maze[0].length || maze[x][y] == 1)
+        {
+            return new int[]{i,j};
+        }
+        return findend(maze,x,y, dir);
+    }
+}
