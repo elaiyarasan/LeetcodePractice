@@ -19,6 +19,8 @@ The read function may be called multiple times.
       int read4(char[] buf); */
 /* The read4 API is defined in the parent class Reader4.
       int read4(char[] buf); */
+/* The read4 API is defined in the parent class Reader4.
+      int read4(char[] buf); */
 
 public class Solution extends Reader4 {
     private int buffPtr = 0;
@@ -30,11 +32,15 @@ public class Solution extends Reader4 {
             if (buffPtr == 0) {
                 buffCnt = read4(buff);
             }
-            if (buffCnt == 0) break;
+            
+        
             while (ptr < n && buffPtr < buffCnt) {
-                buf[ptr++] = buff[buffPtr++];
+                buf[ptr] = buff[buffPtr];
+                ptr++;
+                buffPtr++;
             }
-            if (buffPtr >= buffCnt) buffPtr = 0;
+            if (buffPtr == buffCnt) buffPtr = 0;
+            if (buffCnt < 4) break;
         }
         return ptr;
     }
