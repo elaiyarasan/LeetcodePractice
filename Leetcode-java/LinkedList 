@@ -1,0 +1,41 @@
+public class Node{
+	int val;
+	Node next;
+	public Node(int x){ val = x;}
+}
+
+
+#Assume index always less than the length of the linked list;
+#Assume index can not be negative. 
+
+public class LinkedList{
+	Node root;
+	Map<Integer, Node> hmap;
+	public LinkedList(Node root){
+		this.root = root;
+		Node p = root;
+		hmap = new HashMap<>();
+		int i = 0;
+		while(p != null){
+		   hmap.put(i,p);
+		   i++;
+		   p = p.next;
+		}
+	}
+	public int get(int index){
+	    return hmap.get(index).val;
+		
+	}
+	public void insert(int index, int val ){
+	    Node insertNode = new Node(val);
+	    insertNode.next = hmap.get(index);
+	    if(index - 1 >= 0){
+	      hmap.get(index-1).next = insertNode;
+	    } 
+	    adjustHmapInsert(int index,insertNode); 
+	}
+	public void delete(int index){
+	    hmap.get(index-1).next = hmap.get(index).next;
+            adjustHmapDelete(int index);
+	}
+}
