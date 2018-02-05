@@ -12,38 +12,26 @@ All the scores of athletes are guaranteed to be unique.
 Show Company Tags
 
 **/
-public class Solution {
+class Solution {
     public String[] findRelativeRanks(int[] nums) {
-        String[] res = new String[nums.length]; 
-        PriorityQueue<Integer> pq = new PriorityQueue<>(nums.length, new Comparator<Integer>(){
-            public int compare(Integer a, Integer b){
-                return b-a;
-            }
-        });
+        String[] res = new String[nums.length];
+        Queue<Integer> heap = new PriorityQueue<>();
         Map<Integer, Integer> hmap = new HashMap<>();
-        for(int i = 0 ; i < nums.length ; i++){
+        for(int i = 0; i < nums.length; i++){
+            heap.add(nums[i]);   
             hmap.put(nums[i],i);
-            pq.add(nums[i]);
         }
-        int j = 1;
-        while(!pq.isEmpty()){
-            int cur = pq.poll();
-            if(j == 1){
-                res[hmap.get(cur)] = "Gold Medal";
-                j++;
-            }
-            else if(j == 2){
-                res[hmap.get(cur)] = "Silver Medal";
-                j++;
-            }
-            else if(j == 3){
-                res[hmap.get(cur)] = "Bronze Medal";
-                j++;
-            }
-            else{
-                res[hmap.get(cur)] = ""+ j ;
-                j++;
-            }
+        int n = nums.length;
+        while(heap.size() != 0){
+            if(heap.size() == 3)
+                res[hmap.get(heap.poll())]  = "Bronze Medal";
+            else if(heap.size() == 2)
+                res[hmap.get(heap.poll())]  = "Silver Medal";  
+            else if(heap.size() == 1 )
+                res[hmap.get(heap.poll())]  = "Gold Medal";
+            else
+            res[hmap.get(heap.poll())] = "" + n;  
+            n--;     
         }
         return res;
     }
